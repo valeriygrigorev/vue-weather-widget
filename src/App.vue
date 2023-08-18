@@ -110,7 +110,7 @@ const parser = new XMLParser({
   attributeNamePrefix: ''
 });
 
-const wetherDataHandle = (xmlData: string): citiesInfo => {
+const weatherDataHandle = (xmlData: string): citiesInfo => {
   let {
     current: {
       city: {
@@ -187,7 +187,7 @@ const getCitiesInfo = async (names: string[]): Promise<citiesInfo[]> => {
     const requests:  Promise<AxiosResponse<any, any>>[]  = urls.map(((url) => axios.get(url)));
     const responseObj:  AxiosResponse<any, any>[] = await Promise.all(requests);
     const xmlsArr: string[] = responseObj.map((response) => response.data);
-    return xmlsArr.map((item: string)=> wetherDataHandle(item))
+    return xmlsArr.map((item: string)=> weatherDataHandle(item))
   } catch(e) {
     return [];
   }
@@ -226,13 +226,13 @@ export default Vue.extend({
   methods: {
     async addStartCity(data: string) {
       this.addedCity = data;
-      await this.getWether();
+      await this.getWeather();
     },
     async addSettingsCity(data: string) {
       this.addedCity = data;
       await this.addCity();
     },
-    async getWether(event?: Event): Promise<void> {
+    async getWeather(event?: Event): Promise<void> {
       event && event.preventDefault();
       const route = (): void => { this.goToSection('weather'); }
       await this.addCity(route);
